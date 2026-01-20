@@ -2,8 +2,9 @@ import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .send import send_whatsapp_message
+import os
 
-VERIFY_TOKEN = "my_verify_token"  # same value you put in Meta dashboard
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")  # same value you put in Meta dashboard
 
 @csrf_exempt
 def whatsapp_webhook(request):
