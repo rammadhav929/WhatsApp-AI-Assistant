@@ -32,6 +32,7 @@ def whatsapp_webhook(request):
 
             print("From:", user_number)
             print("Text:", user_text)
+            user_text=user_text+" "+user_number
 
             send_whatsapp_message(
                 user_number,
