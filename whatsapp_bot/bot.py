@@ -13,7 +13,7 @@ SYSTEM_PROMPT = (
 
 
 name="Hello Ram How can i help you"
-def take(user_text):
+def talk(user_text):
     prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
     response = client.models.generate_content(
     model="gemini-2.5-flash-lite", 
