@@ -2,6 +2,7 @@ import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .send import send_whatsapp_message
+from .bot import talk
 import os
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")  # same value you put in Meta dashboard
@@ -32,11 +33,12 @@ def whatsapp_webhook(request):
 
             print("From:", user_number)
             print("Text:", user_text)
-            user_text=user_text+" "+user_number
+            #user_text=user_text+" "+user_number
+            text=talk(user_text)
 
             send_whatsapp_message(
                 user_number,
-                f"You said: {user_text}",
+                text,
                 use_template=False
             )
 

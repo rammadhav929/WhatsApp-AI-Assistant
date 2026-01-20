@@ -31,4 +31,4 @@ def send_whatsapp_message(to, text, use_template=False):
         }
 
     response = requests.post(url, headers=headers, json=payload)
-    print(response.status_code, response.text)
+    #print(response.status_code, response.text)
