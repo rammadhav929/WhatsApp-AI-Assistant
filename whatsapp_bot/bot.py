@@ -1,7 +1,9 @@
 from google import genai
 
+import os
 
-client = genai.Client(api_key="AIzaSyBhj7_xb7qW_nTAFLgpJGuEgVJ8vw55TLI")
+api_key= os.getenv("api_key") 
+client = genai.Client(api_key)
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant. "
