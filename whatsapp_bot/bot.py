@@ -2,7 +2,7 @@ from google import genai
 
 import os
 
-api_key= os.getenv("api_key") 
+api_key= os.getenv("/etc/secrets/api_key") 
 client = genai.Client(api_key=api_key)
 
 SYSTEM_PROMPT = (
