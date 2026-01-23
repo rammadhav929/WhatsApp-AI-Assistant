@@ -3,6 +3,7 @@ from google import genai
 import os
 with open("/etc/secrets/api_key") as f:
     api_key = f.read().strip()
+print(api_key)
 
 if not api_key:
     raise RuntimeError("api_key file is empty")
