@@ -1,7 +1,7 @@
 import requests
 import os
 
-ACCESS_TOKEN= os.getenv("ACCESS_TOKEN") 
+ACCESS_TOKEN= os.getenv("/etc/secrets/ACCESS_TOKEN") 
 
 PHONE_NUMBER_ID = "894423013757849"
 
