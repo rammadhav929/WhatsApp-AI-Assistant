@@ -22,5 +22,6 @@ def talk(user_text):
     contents=prompt
 ) 
     reply = response.text
+    print(reply)
     return reply
     #print(reply)
