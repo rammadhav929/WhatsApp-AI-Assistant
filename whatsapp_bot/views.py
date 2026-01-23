@@ -36,11 +36,11 @@ def whatsapp_webhook(request):
             #user_text=user_text+" "+user_number
             text=talk(user_text)
 
-            send_whatsapp_message(
+            '''send_whatsapp_message(
                 user_number,
                 text,
                 use_template=False
-            )
+            )'''
 
         except KeyError:
             pass  # non-message events
