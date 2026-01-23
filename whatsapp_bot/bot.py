@@ -21,13 +21,13 @@ SYSTEM_PROMPT = (
 
 
 name="Hello Ram How can i help you"
-def talk(user_text):
-    prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
+prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
     response = client.models.generate_content(
     model="gemini-2.5-flash-lite", 
     contents=prompt
 ) 
     reply = response.text
     print(reply)'''
-    return "hi"
+def talk(user_text):
+    return api_key
     #print(reply)
