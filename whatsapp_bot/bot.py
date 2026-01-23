@@ -1,8 +1,13 @@
 from google import genai
 
 import os
+with open("/etc/secrets/api_key") as f:
+    api_key = f.read().strip()
 
-api_key= os.getenv("/etc/secrets/api_key") 
+if not api_key:
+    raise RuntimeError("api_key file is empty")
+
+#api_key= os.getenv("/etc/secrets/api_key") 
 client = genai.Client(api_key=api_key)
 
 SYSTEM_PROMPT = (
