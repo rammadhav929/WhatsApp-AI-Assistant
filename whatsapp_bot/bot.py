@@ -7,7 +7,7 @@ print(api_key)
 
 if not api_key:
     raise RuntimeError("api_key file is empty")
-
+'''
 #api_key= os.getenv("/etc/secrets/api_key") 
 client = genai.Client(api_key=api_key)
 
@@ -28,6 +28,6 @@ def talk(user_text):
     contents=prompt
 ) 
     reply = response.text
-    print(reply)
-    return reply
+    print(reply)'''
+    return "hi"
     #print(reply)
