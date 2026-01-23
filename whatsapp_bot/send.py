@@ -1,7 +1,11 @@
 import requests
 import os
+with open("/etc/secrets/ACCESS_TOKEN") as f:
+    api_key = f.read().strip()
 
-ACCESS_TOKEN= os.getenv("/etc/secrets/ACCESS_TOKEN") 
+if not api_key:
+    raise RuntimeError("api_key file is empty")
+#ACCESS_TOKEN= os.getenv("/etc/secrets/ACCESS_TOKEN") 
 
 PHONE_NUMBER_ID = "894423013757849"
 
