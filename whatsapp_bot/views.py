@@ -41,7 +41,7 @@ def whatsapp_webhook(request):
                 text,
                 use_template=False
             )'''
-
+            return HttpResponse("What api"+text)
         except KeyError:
             pass  # non-message events
 
