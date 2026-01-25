@@ -3,11 +3,11 @@ from google import genai
 import os
 with open("/etc/secrets/api_key") as f:
     api_key = f.read().strip()
-print(api_key)
+#print(api_key)
 
 if not api_key:
     raise RuntimeError("api_key file is empty")
-'''
+
 #api_key= os.getenv("/etc/secrets/api_key") 
 client = genai.Client(api_key=api_key)
 
@@ -20,14 +20,14 @@ SYSTEM_PROMPT = (
 
 
 
-name="Hello Ram How can i help you"
-prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
+
+def talk(user_text):
+    name="Hello Ram How can i help you"
+    prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
     response = client.models.generate_content(
     model="gemini-2.5-flash-lite", 
-    contents=prompt
-) 
+    contents=prompt) 
     reply = response.text
-    print(reply)'''
-def talk(user_text):
-    return api_key
+    #print(reply)
+    return reply
     #print(reply)
