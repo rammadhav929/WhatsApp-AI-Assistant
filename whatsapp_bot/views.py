@@ -1,25 +1,28 @@
 import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .send import send_whatsapp_message
 from .bot import talk
 import os
 
-VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
-
-# store last output
-LAST_OUTPUT = "No messages yet."
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")  # same value you put in Meta dashboard
 
 @csrf_exempt
 def whatsapp_webhook(request):
-    global LAST_OUTPUT
-
+    # Meta verification (GET from Meta)
     if request.method == "GET":
-        return HttpResponse(f"""
-            <h2>WhatsApp Webhook is running</h2>
-            <p><b>Last Output:</b></p>
-            <pre>{LAST_OUTPUT}</pre>
-        """)
+        mode = request.GET.get("hub.mode")
+        token = request.GET.get("hub.verify_token")
+        challenge = request.GET.get("hub.challenge")
 
+        # When Meta verifies
+        if mode == "subscribe" and token == VERIFY_TOKEN:
+            return HttpResponse(challenge)
+
+        # When YOU open the URL in browser
+        return HttpResponse("WhatsApp Webhook is running.")
+
+    # Receive messages (POST from Meta)
     if request.method == "POST":
         data = json.loads(request.body)
 
@@ -44,10 +47,3 @@ def whatsapp_webhook(request):
 
         return JsonResponse({"status": "ok"})
 
-
-
-            return HttpResponse("ok")
-
-        except Exception as e:
-            LAST_OUTPUT = f"Error: {e}"
-            return JsonResponse({"status": "ignored"})
