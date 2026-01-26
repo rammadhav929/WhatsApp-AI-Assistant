@@ -1,9 +1,9 @@
 import requests
 import os
 with open("/etc/secrets/ACCESS_TOKEN") as f:
-    api_key = f.read().strip()
+    ACCESS_TOKEN = f.read().strip()
 
-if not api_key:
+if not ACCESS_TOKEN:
     raise RuntimeError("api_key file is empty")
 #ACCESS_TOKEN= os.getenv("/etc/secrets/ACCESS_TOKEN") 
 
