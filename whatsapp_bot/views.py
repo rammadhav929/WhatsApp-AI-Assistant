@@ -21,16 +21,30 @@ def whatsapp_webhook(request):
         """)
 
     if request.method == "POST":
-        try:
-            data = json.loads(request.body)
+        data = json.loads(request.body)
 
+        try:
             msg = data["entry"][0]["changes"][0]["value"]["messages"][0]
             user_number = msg["from"]
             user_text = msg["text"]["body"]
 
-            text = talk(user_text)
+            print("From:", user_number)
+            print("Text:", user_text)
+            #user_text=user_text+" "+user_number
+            text=talk(user_text)
 
-            LAST_OUTPUT = f"From: {user_number}\nUser: {user_text}\nBot: {text}"
+            send_whatsapp_message(
+                user_number,
+                text,
+                use_template=False
+            )
+
+        except KeyError:
+            pass  # non-message events
+
+        return JsonResponse({"status": "ok"})
+
+
 
             return HttpResponse("ok")
 
