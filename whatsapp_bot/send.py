@@ -7,7 +7,9 @@ if not ACCESS_TOKEN:
     raise RuntimeError("api_key file is empty")
 #ACCESS_TOKEN= os.getenv("/etc/secrets/ACCESS_TOKEN") 
 
-PHONE_NUMBER_ID = "894423013757849"
+with open("/etc/secrets/PHONE_NUMBER_ID") as f:
+    PHONE_NUMBER_ID  = f.read().
+
 
 
 def send_whatsapp_message(to, text, use_template=False):
