@@ -9,7 +9,7 @@ if not api_key:
     raise RuntimeError("api_key file is empty")
 
 #api_key= os.getenv("/etc/secrets/api_key") 
-client = genai.Client(api_key=api_key)
+#client = genai.Client(api_key=api_key)
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant. "
@@ -23,11 +23,11 @@ SYSTEM_PROMPT = (
 
 def talk(user_text):
     name="Hello Ram How can i help you"
-    prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
-    response = client.models.generate_content(
-    model="gemini-2.5-flash-lite", 
-    contents=prompt) 
-    reply = response.text
+#    prompt = f"{SYSTEM_PROMPT}\nUser: {user_text}"
+ #   response = client.models.generate_content(
+  #  model="gemini-2.5-flash-lite", 
+   # contents=prompt) 
+    #reply = response.text
     #print(reply)
-    return reply
+    return name
     #print(reply)
