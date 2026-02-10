@@ -6,7 +6,7 @@ from .bot import talk
 import os
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")  # same value you put in Meta dashboard
-
+@csrf_exempt
 def whatsapp_webhook(request):
 
     # Meta verification (GET from Meta)
