@@ -7,7 +7,7 @@ Developed a cloud-hosted backend system to automate WhatsApp message handling an
 -	Managed token-based authentication, API limits, and free-tier constraints in a live environment
 -	Tech Stack: Django, Meta WhatsApp Cloud API, Gemini API, REST APIs, Webhooks, Render, Git
 
-# Why Is a Proxy Needed? 
+# Why Is Proxy Needed? 
 Because your Django app is not designed to face the internet directly.
 
 **→** Django’s development server (runserver) and even gunicorn:
