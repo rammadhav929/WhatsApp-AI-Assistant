@@ -8,7 +8,7 @@ if not ACCESS_TOKEN:
 #ACCESS_TOKEN= os.getenv("/etc/secrets/ACCESS_TOKEN") 
 
 with open("/etc/secrets/PHONE_NUMBER_ID") as f:
-    PHONE_NUMBER_ID  = f.read().
+    PHONE_NUMBER_ID  = f.read().strip()
 
 
 
