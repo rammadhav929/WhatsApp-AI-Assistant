@@ -9,7 +9,7 @@ Developed a cloud-hosted backend system to automate WhatsApp message handling an
 
 # Why Is a Proxy Needed? 
 Because your Django app is not designed to face the internet directly.
--- Django’s development server (runserver) and even gunicorn:
+-> Django’s development server (runserver) and even gunicorn:
 - Do not handle TLS (HTTPS) efficiently
 - Do not manage load balancing
 - Do not handle DDoS protection
@@ -19,5 +19,8 @@ Because your Django app is not designed to face the internet directly.
   
 So the proxy handles all of that.
 
-# What Are Webhooks?
+# What Is Webhooks?
 A webhook is a mechanism that allows one system to automatically send real-time data to another system when a specific event occurs.
+
+
+
