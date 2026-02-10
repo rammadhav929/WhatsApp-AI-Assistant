@@ -23,5 +23,12 @@ So the proxy handles all of that.
 # What Is Webhooks?
 A webhook is a mechanism that allows one system to automatically send real-time data to another system when a specific event occurs.
 
+**The Process**
+- You Register a Webhook URL , the endpoint is our's public exposed point
+- An Event Happens Examples: Payment succeeds
+- The Service Sends an HTTP POST
+- Your Server Processes It
+
+
 
 
