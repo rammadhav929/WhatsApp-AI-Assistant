@@ -16,8 +16,8 @@ Because your Django app is not designed to face the internet directly.
 - Do not optimize connection reuse
 - Do not handle edge caching
 - Do not isolate network exposure
-- 
+  
 So the proxy handles all of that.
 
-#What Are Webhooks?
+# What Are Webhooks?
 A webhook is a mechanism that allows one system to automatically send real-time data to another system when a specific event occurs.
