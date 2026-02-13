@@ -47,7 +47,7 @@ def whatsapp_webhook(request):
             print("From:", user_number, flush=True)
             print("Text:", user_text, flush=True)
 
-            text = talk(user_text)
+            text = trigger(user_text)
 
             send_whatsapp_message(
                 user_number,
