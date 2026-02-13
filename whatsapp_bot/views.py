@@ -2,7 +2,8 @@ import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .send import send_whatsapp_message
-from .bot import talk
+# from .bot import talk
+from .sending import trigger
 import os
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")  # same value you put in Meta dashboard
