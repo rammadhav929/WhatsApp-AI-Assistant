@@ -1,6 +1,5 @@
 import json
-#Ram
-Ram ="!"
+
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .send import send_whatsapp_message
