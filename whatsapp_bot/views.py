@@ -1,29 +1,65 @@
 import json
+import os
+import hmac
+import hashlib
 
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .send import send_whatsapp_message
-# from .bot import talk
-from .sending import trigger
-import os
 
-VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")  # same value you put in Meta dashboard
+from .send import send_whatsapp_message
+from .sending import trigger
+
+
+# --------------------------------------------------
+# ENV VARIABLES
+# --------------------------------------------------
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+APP_SECRET = os.getenv("APP_SECRET")  # Meta App Secret (IMPORTANT)
+
+
+# --------------------------------------------------
+# SIGNATURE VERIFICATION (Security Layer)
+# Ensures request really came from Meta
+# --------------------------------------------------
+def verify_signature(payload, received_signature):
+
+    if not received_signature or not APP_SECRET:
+        return False
+
+    expected_signature = "sha256=" + hmac.new(
+        APP_SECRET.encode(),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+
+    return hmac.compare_digest(expected_signature, received_signature)
+
+
+# --------------------------------------------------
+# WHATSAPP WEBHOOK
+# --------------------------------------------------
 @csrf_exempt
 def whatsapp_webhook(request):
 
-    # Meta verification (GET from Meta)
+    # ==============================
+    # META VERIFICATION (GET)
+    # ==============================
     if request.method == "GET":
+
         mode = request.GET.get("hub.mode")
         token = request.GET.get("hub.verify_token")
         challenge = request.GET.get("hub.challenge")
 
         if mode == "subscribe" and token == VERIFY_TOKEN:
+            print("Webhook verified by Meta", flush=True)
             return HttpResponse(challenge)
 
         return HttpResponse("WhatsApp Webhook is running.")
 
 
-    # Receive messages (POST from Meta)
+    # ==============================
+    # RECEIVE EVENTS (POST)
+    # ==============================
     if request.method == "POST":
 
         # 🔎 LOG REQUEST SOURCE
@@ -38,25 +74,87 @@ def whatsapp_webhook(request):
         print("User-Agent:", user_agent, flush=True)
         print("Meta Signature:", signature, flush=True)
 
-        data = json.loads(request.body)
+        # ==============================
+        # SECURITY: VERIFY META SIGNATURE
+        # ==============================
+        if not verify_signature(request.body, signature):
+            print("❌ Invalid signature — request rejected", flush=True)
+            return JsonResponse({"error": "Invalid signature"}, status=403)
 
+        # ==============================
+        # SAFE JSON PARSING
+        # ==============================
         try:
-            msg = data["entry"][0]["changes"][0]["value"]["messages"][0]
-            user_number = msg["from"]
-            user_text = msg["text"]["body"]
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            print("❌ Invalid JSON payload", flush=True)
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-            print("From:", user_number, flush=True)
-            print("Text:", user_text, flush=True)
-
-            text = trigger(user_text)
-
-            send_whatsapp_message(
-                user_number,
-                text,
-                use_template=False
+        # ==============================
+        # SAFE DATA EXTRACTION
+        # ==============================
+        try:
+            value = (
+                data.get("entry", [{}])[0]
+                .get("changes", [{}])[0]
+                .get("value", {})
             )
 
-        except KeyError:
-            print("Non-message event received", flush=True)
+            # ------------------------------
+            # MESSAGE EVENT
+            # ------------------------------
+            if "messages" in value:
+
+                msg = value["messages"][0]
+
+                user_number = msg.get("from")
+                message_type = msg.get("type")
+
+                # Accept only text messages
+                if message_type != "text":
+                    print("Non-text message ignored", flush=True)
+                    return JsonResponse({"status": "ignored"})
+
+                user_text = msg.get("text", {}).get("body", "")
+
+                # Input validation
+                if not user_number or not user_text:
+                    print("Invalid message structure", flush=True)
+                    return JsonResponse({"status": "invalid"})
+
+                print("From:", user_number, flush=True)
+                print("Text:", user_text, flush=True)
+
+                # ------------------------------
+                # BOT PROCESSING
+                # ------------------------------
+                try:
+                    text = trigger(user_text)
+                except Exception as e:
+                    print("Bot processing error:", str(e), flush=True)
+                    return JsonResponse({"status": "bot_error"})
+
+                # ------------------------------
+                # SEND REPLY
+                # ------------------------------
+                send_whatsapp_message(
+                    user_number,
+                    text,
+                    use_template=False
+                )
+
+            # ------------------------------
+            # STATUS EVENTS (sent/delivered/read)
+            # ------------------------------
+            else:
+                print("Non-message event received", flush=True)
+
+        except Exception as e:
+            print("Webhook processing error:", str(e), flush=True)
 
         return JsonResponse({"status": "ok"})
+
+    # ==============================
+    # METHOD NOT ALLOWED
+    # ==============================
+    return JsonResponse({"error": "Method not allowed"}, status=405)
