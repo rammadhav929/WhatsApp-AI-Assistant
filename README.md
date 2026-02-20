@@ -1,5 +1,5 @@
 # WhatsApp AI Assistant
-- Developed a cloud-hosted backend system to automate WhatsApp message handling and generate intelligent real-time AI responses.
+Developed a cloud-hosted backend system to automate WhatsApp message handling and generate intelligent real-time AI responses.
 - Implemented secure webhook-based event processing to receive and respond to live WhatsApp messages.
 - Integrated Google Gemini LLM to generate dynamic, context-aware conversational replies.
 - Added Meta webhook signature verification and request validation to ensure authenticated event delivery.
