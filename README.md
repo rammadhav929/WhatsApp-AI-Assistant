@@ -1,11 +1,11 @@
 # WhatsApp AI Assistant
-Developed a cloud-hosted backend system to automate WhatsApp message handling and generate intelligent replies in real time using AI.
-
-- Implemented webhook-based event processing to receive and respond to live WhatsApp messages.
--	Integrated Google Gemini LLM to generate dynamic, context-aware responses.
--	Deployed the Django backend on Render with a public HTTPS endpoint registered in Meta
--	Managed token-based authentication, API limits, and free-tier constraints in a live environment
--	Tech Stack: Django, Meta WhatsApp Cloud API, Gemini API, REST APIs, Webhooks, Render, Git
+- Developed a cloud-hosted backend system to automate WhatsApp message handling and generate intelligent real-time AI responses.
+- Implemented secure webhook-based event processing to receive and respond to live WhatsApp messages.
+- Integrated Google Gemini LLM to generate dynamic, context-aware conversational replies.
+- Added Meta webhook signature verification and request validation to ensure authenticated event delivery.
+- Deployed Django backend on Render with a public HTTPS endpoint registered with Meta WhatsApp Cloud API.
+- Managed token-based authentication, API limits, and free-tier operational constraints in a live production environment.
+- Tech Stack: Django, Meta WhatsApp Cloud API, Google Gemini API, REST APIs, Secure Webhooks, Render, Git
 
 # Why Is Proxy Needed? 
 Because your Django app is not designed to face the internet directly.
